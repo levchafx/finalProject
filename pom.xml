@@ -16,6 +16,9 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <jasper.version>9.0.30</jasper.version>
+        <jstl.version>1.2</jstl.version>
+        <faker.version>1.0.1</faker.version>
     </properties>
 
     <dependencies>
@@ -56,7 +59,7 @@
         <dependency>
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
-            <version>1.2</version>
+            <version>${jstl.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -73,7 +76,7 @@
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-jasper</artifactId>
-            <version>9.0.30</version>
+            <version>${jasper.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -83,7 +86,7 @@
         <dependency>
             <groupId>com.github.javafaker</groupId>
             <artifactId>javafaker</artifactId>
-            <version>1.0.1</version>
+            <version>${faker.version}</version>
         </dependency>
 
 
