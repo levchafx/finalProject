@@ -30,18 +30,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/*", "/h2-console/**")
+        http.authorizeRequests().antMatchers("/*")
                 .permitAll()
-                .antMatchers("/admin/**")
+                .antMatchers("/admin/**","/h2-console/**")
                 .access("hasRole('ROLE_ADMIN')")
                 .antMatchers("/user/*")
-                .access("hasAnyRole( {'ROLE_ADMIN','ROLE_USER','ROLE_GUEST'})")
-                .and()
-                .formLogin()
-                .and()
-                .logout().permitAll().logoutSuccessUrl("/")
-                .and()
-                .csrf().disable();
+                .access("hasAnyRole( {'ROLE_ADMIN','ROLE_USER','ROLE_GUEST'})");
+
+        http .formLogin();
+
+        http.logout().permitAll().logoutSuccessUrl("/");
+
+        http.csrf().disable();
+
         http.headers().frameOptions().disable();
     }
 }
