@@ -1,20 +1,16 @@
 package by.levchenko.domain;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import java.util.*;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @NamedEntityGraph
         (name = "user.bookshelf",
@@ -23,9 +19,7 @@ public class User implements UserDetails {
     public User(String name, Authenticate authenticate) {
         this.name = name;
         this.authenticate = authenticate;
-
     }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -41,14 +35,11 @@ public class User implements UserDetails {
     private Role role;
     @ToString.Exclude
     @OneToMany(cascade=CascadeType.ALL,orphanRemoval = true)
-
     private List<BookInstance> bookshelf;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<Role> roles = new HashSet<>();
         roles.add(role);
-
         return roles;
     }
 

@@ -1,18 +1,14 @@
 package by.levchenko.domain;
 
 import lombok.*;
-import org.apache.commons.lang3.builder.HashCodeExclude;
-
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
 @Data
 @NoArgsConstructor
 @NamedEntityGraph(name="book.authors",attributeNodes ={ @NamedAttributeNode("authors"),@NamedAttributeNode("image")})
-@Table(name = "book")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +21,7 @@ public class Book {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id"))
+    @JoinTable
     private Set<Author> authors =new HashSet<>();
     private int quantity;
 
