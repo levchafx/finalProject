@@ -54,8 +54,8 @@ deleteBook(b.getId());
 
     }
     @Transactional
-    public void getBook(User user,long bookId,int weeks){
-
+    public void getBook(long userId,long bookId,int weeks){
+User user=userService.findById(userId);
         Book b = findById(bookId);
         b.setQuantity(b.getQuantity() - 1);
         BookInstance bi = new BookInstance();

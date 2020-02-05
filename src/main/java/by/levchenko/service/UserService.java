@@ -42,19 +42,11 @@ public class UserService implements UserDetailsService {
         return false;
     }
     u.getAuthenticate().setPassword(encoder.encode(u.getPassword()));
-    u.setRole(Role.ROLE_USER);
     userRepository.save(u);
     return true;
     }
-    public boolean saveAdmin(User u){
-        if(userRepository.findByUsername(u.getUsername())!=null){
-            return false;
-        }
-        u.getAuthenticate().setPassword(encoder.encode(u.getPassword()));
-        u.setRole(Role.ROLE_ADMIN);
-        userRepository.save(u);
-        return true;
-    }
+
+
     public List<User> findAll(){
     return userRepository.findAll();
     }
@@ -64,7 +56,7 @@ public class UserService implements UserDetailsService {
     @Transactional
     public void lockUser(long id){
         User user = findById(id);
-        user.setRole(Role.ROLE_GUEST);
+        user.setRole(Role.ROLE_LOCKED);
 
     }
 @Transactional

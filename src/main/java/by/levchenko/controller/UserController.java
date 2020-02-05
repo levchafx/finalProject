@@ -15,8 +15,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+
+import static by.levchenko.service.SecurityService.returnPrincipal;
 
 
 @Controller
@@ -40,10 +43,7 @@ public class UserController {
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/getBook")
     public ModelAndView getBook(@RequestParam("book_id") long bookId, @RequestParam("weeks") int weeks) {
-
-        u = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userService.findById(u.getId());
-        bookService.getBook(user, bookId, weeks);
+        bookService.getBook(returnPrincipal().getId(), bookId, weeks);
         ModelAndView mv = new ModelAndView("books");
         mv.addObject("books", bookService.findAll());
         return mv;
@@ -56,8 +56,8 @@ public class UserController {
 
     @GetMapping("/bookshelf")
     public ModelAndView bookshelf() {
-        u = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<BookInstance> bookInstanceList = bookInstanceRepository.findByUserId(u.getId());
+
+        List<BookInstance> bookInstanceList = bookInstanceRepository.findByUserId(returnPrincipal().getId());
         ModelAndView mv = new ModelAndView("bookshelf");
         if (!bookInstanceList.isEmpty()) {
             mv.addObject("books", bookInstanceList);

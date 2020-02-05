@@ -16,9 +16,10 @@ import java.util.*;
         (name = "user.bookshelf",
         attributeNodes = @NamedAttributeNode("bookshelf"))
 public class User implements UserDetails {
-    public User(String name, Authenticate authenticate) {
+    public User(String name, Authenticate authenticate,Role role) {
         this.name = name;
         this.authenticate = authenticate;
+        this.role=role;
     }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +32,7 @@ public class User implements UserDetails {
 
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "enum('ROLE_ADMIN','ROLE_USER','ROLE_GUEST')")
+    @Column(columnDefinition = "enum('ROLE_ADMIN','ROLE_USER','ROLE_LOCKED')")
     private Role role;
     @ToString.Exclude
     @OneToMany(cascade=CascadeType.ALL,orphanRemoval = true)

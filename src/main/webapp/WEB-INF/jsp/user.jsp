@@ -51,7 +51,7 @@
                     <c:if test="${user.role=='ROLE_USER'}">
                     <form action="/admin/lockUser" method ="post"><input type="text" hidden="hidden" name ="id" value="${user.id}"><input type="submit" class="btn btn-primary" value="Lock"></form><br>
                     </c:if>
-                    <c:if test="${user.role=='ROLE_GUEST'}">
+                    <c:if test="${user.role=='ROLE_LOCKED'}">
                         <form action="/admin/unlockUser" method ="post"><input type="text" hidden="hidden" name ="id" value="${user.id}"><input type="submit" class="btn btn-primary" value="Unlock"></form><br>
                     </c:if>
                     <c:if test="${user.role ne 'ROLE_ADMIN' }">

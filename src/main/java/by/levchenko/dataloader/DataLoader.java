@@ -1,9 +1,6 @@
 package by.levchenko.dataloader;
 
-import by.levchenko.domain.Authenticate;
-import by.levchenko.domain.Author;
-import by.levchenko.domain.Book;
-import by.levchenko.domain.User;
+import by.levchenko.domain.*;
 import by.levchenko.repository.BookRepository;
 import by.levchenko.repository.UserRepository;
 import by.levchenko.service.UserService;
@@ -34,9 +31,9 @@ private final int BOOK_QUANTITY=10;
     @PostConstruct
     public void loadData(){
         Faker faker=new Faker();
-        User admin= new User(environment.getProperty("admin.username"),new Authenticate(environment.getProperty("admin.username"), environment.getProperty("password")));
-        User user=new User(environment.getProperty("user.username"),new Authenticate(environment.getProperty("user.username"), environment.getProperty("password")));
-        userService.saveAdmin(admin);
+        User admin= new User(environment.getProperty("admin.username"),new Authenticate(environment.getProperty("admin.username"), environment.getProperty("password")), Role.ROLE_ADMIN);
+        User user=new User(environment.getProperty("user.username"),new Authenticate(environment.getProperty("user.username"), environment.getProperty("password")),Role.ROLE_USER);
+        userService.saveUser(admin);
         userService.saveUser(user);
 for(int i=0;i<10;i++){
     Author a=new Author();
