@@ -2,6 +2,7 @@ package by.levchenko.domain;
 
 import lombok.*;
 import javax.persistence.*;
+import java.util.Base64;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,6 +17,8 @@ public class Book {
     @Lob
     @Basic(fetch = FetchType.LAZY)
     private byte [] image;
+    @Transient
+    private String base64Image;
     private String title;
     private String description;
     @ToString.Exclude
@@ -30,5 +33,12 @@ public class Book {
         this.description=description;
         this.title=title;
         this.quantity=quantity;
+    }
+
+    public String getBase64Image() {
+        if(image!=null) {
+            base64Image = Base64.getEncoder().encodeToString(this.image);
+            return base64Image;
+        }return "";
     }
 }

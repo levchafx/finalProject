@@ -16,29 +16,19 @@
 <h1 align="center">USERS</h1>
 <div class="container">
 <table class='table table-bordered table-condensed table-striped table-hover'>
-
     <tr>
-
         <td>ID</td>
         <td>Name</td>
         <td>Role</td>
-
-
     </tr>
     <c:forEach items="${users }" var="user">
-
-
-
-
             <tbody>
-
                 <tr class="clickable text-center"
                 onclick="window.location='/admin/users/${user.id}'">
                     <td>${user.id}</td>
                     <td>${user.name}</td>
                     <td>${user.role}</td>
                 </tr>
-
             </tbody>
     </c:forEach>
 </table>

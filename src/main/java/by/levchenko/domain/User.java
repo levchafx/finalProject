@@ -16,6 +16,11 @@ import java.util.*;
         (name = "user.bookshelf",
         attributeNodes = @NamedAttributeNode("bookshelf"))
 public class User implements UserDetails {
+    public User(String name, Authenticate authenticate){
+        this.name=name;
+        this.authenticate=authenticate;
+        this.role=Role.ROLE_USER;
+    }
     public User(String name, Authenticate authenticate,Role role) {
         this.name = name;
         this.authenticate = authenticate;
