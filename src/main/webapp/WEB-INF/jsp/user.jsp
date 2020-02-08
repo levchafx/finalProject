@@ -35,16 +35,15 @@
                             <td>Due Date</td>
                             <td>Actions</td>
                         </tr>
-                   <td>
-                <c:forEach items="${user.bookshelf}" var="book">
-                       <tr>
-                        <td> ${book.id}</td>
-                   <td>${book.dueDate}</td>
-                   <td><form action="/user/returnBook" method="post" ><input type="text" hidden="hidden" name="book_id" value="${book.id}"><input type="submit" class="btn btn-primary" value="Return"></form><br></td>
-                       </tr>
-                           </c:forEach>
-               </td>
-
+                        <tbody>
+                        <tr>
+                            <c:forEach items="${user.bookshelf}" var="book">
+                                <td> ${book.id}</td>
+                                <td>${book.dueDate}</td>
+                                <td><form action="/user/returnBook" method="post" ><input type="text" hidden="hidden" name="book_id" value="${book.id}"><input type="submit" class="btn btn-primary" value="Return"></form><br></td>
+                            </c:forEach>
+                        </tr>
+                        </tbody>
                     </table>
             </td>
                 <td><form action="/user/edit" method="post"><input type="text" hidden="hidden" value="${user}"><input type="submit" class="btn btn-primary" value="Edit"></form><br>

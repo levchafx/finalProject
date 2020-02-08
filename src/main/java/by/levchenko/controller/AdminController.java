@@ -1,5 +1,6 @@
 package by.levchenko.controller;
 
+import by.levchenko.domain.Author;
 import by.levchenko.domain.Book;
 import by.levchenko.domain.Role;
 import by.levchenko.domain.User;
@@ -14,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -73,16 +75,27 @@ public class AdminController {
         return mv;
     }
     @GetMapping("/addBook")
-    public String addBook(){
+    public String addBook(ModelMap modelMap,@RequestParam(value = "bookId",required = false) Long id){
+   if(id != null){
+       modelMap.addAttribute("book",bookService.findById(id));
+       return "bookForm";
+   }
+   Book b= new Book();
+   b.getAuthors().add(new Author());
+    modelMap.addAttribute("book",b);
     return "bookForm";
     }
     @PostMapping("/addBook")
     public String addBook(@ModelAttribute("book") Book book, BindingResult bindingResult, @RequestParam("image") MultipartFile file ,HttpServletRequest request) throws IOException {
 book.setAuthors(StringUtils.getAuthors(request.getParameter("authors")));
     book.setImage(file.getBytes());
-        System.out.println(file.getBytes());
     bookService.saveBook(book);
 
         return"redirect:/books" ;
+    }
+    @PostMapping("/deleteBook")
+    public String deleteBook(@RequestParam("bookId") long id){
+    bookService.deleteBook(id);
+    return "redirect:/books";
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -74,13 +75,15 @@ User user=userService.findById(userId);
         user.getBookshelf().remove(bi);
     }
     public Set<Author> verifyAuthors(Set<Author> authors){
+    Set<Author> verifiedAuthors=new HashSet<>();
+    verifiedAuthors.addAll(authors);
     for(Author a:authors){
         Author author=authorRepository.findByNameAndSurname(a.getName(),a.getSurname()).orElse(new Author());
         if(author.getId()>0){
-            authors.remove(a);
-            authors.add(author);
+            verifiedAuthors.remove(a);
+            verifiedAuthors.add(author);
         }
     }
-    return authors;
+    return verifiedAuthors;
     }
 }

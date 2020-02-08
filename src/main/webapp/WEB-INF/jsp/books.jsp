@@ -18,15 +18,8 @@
 <table class='table table-bordered table-condensed table-striped table-hover'>
 
     <tr>
-
         <td>Title</td>
         <td>Authors</td>
-        <td>Quantity</td>
-        <td>Description</td>
-        <sec:authorize access="isAuthenticated()">
-        <td>Get</td>
-        </sec:authorize>
-
     </tr >
     <c:forEach items= "${requestScope.books }" var="book">
     <tr class="clickable text-center"
@@ -36,24 +29,6 @@
     <td><c:forEach items="${book.authors }" var ="author">
             <c:out value="${author.name } ${author.surname }"></c:out><br>
         </c:forEach>
-        </td>
-
-            <td>${book.quantity }</td>
-
-    <td><sec:authorize access="hasAnyRole({'ADMIN','USER'})" ><c:if test="${book.quantity>0}">
-            <form action="/user/getBook"
-                  method="post">
-                <input name="book_id" type="hidden" value="${book.id}">
-                how many weeks would you like to read it for?<br>
-                <select name="weeks">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                </select> <input type="submit" value="Get book"> <br>
-            </form>
-        </c:if>
-    </sec:authorize>
         </td>
     </tr>
     </c:forEach>

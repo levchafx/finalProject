@@ -21,40 +21,43 @@
         <div class="col-md-12">
             <div class="well well-sm">
                 <form class="form-horizontal" method="post" action="/admin/addBook" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="${book.id}">
                     <fieldset>
                         <legend class="text-center header">Add book</legend>
 
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
                             <div class="col-md-8">
-                                <input id="fname" name="title" type="text" placeholder="title" class="form-control">
+                              Title  <input id="fname" name="title" type="text" placeholder="title" value="${book.title}" class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
                             <div class="col-md-8">
-                                <input id="lname" name="authors" type="text" placeholder="enter authors name and surname separated by comma" class="form-control">
+                                <c:forEach items="${book.authors}" var="author">
+                               Author <input id="lname" name="authors" type="text" value="${author.name} ${author.surname}" placeholder="enter authors name and surname separated by comma" class="form-control">
+                                </c:forEach>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-envelope-o bigicon"></i></span>
                             <div class="col-md-8">
-                                <input id="quantity" name="quantity" type="text" placeholder="how many are there?" class="form-control">
+                               Quantity <input id="quantity" name="quantity" type="text"value ="${book.quantity}" placeholder="how many are there?" class="form-control">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
                             <div class="col-md-8">
-                                <input type="file" name="image"  placeholder="Image" class="form-control" >
+                              Image  <input type="file" name="image"  placeholder="Image" class="form-control" >
                             </div>
                         </div>
 
                         <div class="form-group">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-pencil-square-o bigicon"></i></span>
                             <div class="col-md-8">
-                                <textarea class="form-control" id="description" name="description" placeholder="Add a short description" rows="7"></textarea>
+                                <textarea class="form-control" id="description"  name="description" placeholder="Add a short description" rows="7">${book.description} </textarea>
                             </div>
                         </div>
 
