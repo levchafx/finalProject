@@ -21,22 +21,22 @@ import java.io.IOException;
 @ControllerAdvice
 public class GlobalExceptionHandlingControllerAdvice  {
     private static final String DEFAULT_ERROR_VIEW = "error";
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+
     @ExceptionHandler(SomethingWentTerriblyWrongException.class)
     public ModelAndView general(Exception e) {
         return prepareModelAndView(e);
     }
-    @ResponseStatus(HttpStatus.FORBIDDEN)
+
     @ExceptionHandler(YouAreNotAllowedToBeHereException.class)
     public ModelAndView forbidden(Exception e) {
         return prepareModelAndView(e);
     }
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+
     @ExceptionHandler(ResourceNotFoundException.class)
     public ModelAndView notFound(Exception e) {
         return prepareModelAndView(e);
     }
-    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+   
     @ExceptionHandler(WrongTypeOfMethodException.class)
     public ModelAndView wrongMethod(Exception e) {
       return prepareModelAndView(e);
