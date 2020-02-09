@@ -2,11 +2,14 @@ package by.levchenko.controller;
 
 import by.levchenko.domain.Authenticate;
 import by.levchenko.domain.User;
+import by.levchenko.exception.ResourceNotFoundException;
+import by.levchenko.exception.SomethingWentTerriblyWrongException;
 import by.levchenko.repository.BookRepository;
 import by.levchenko.service.BookService;
 import by.levchenko.service.UserService;
 import by.levchenko.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,11 +21,14 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller()
 @RequestMapping("/")
 public class MainController {
+
 private UserValidator userValidator;
    private BookService bookService;
    private UserService userService;
@@ -70,4 +76,5 @@ private UserValidator userValidator;
 userService.saveUser(user);
        return "index";
     }
+
 }

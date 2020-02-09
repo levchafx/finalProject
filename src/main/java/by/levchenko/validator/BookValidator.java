@@ -1,7 +1,6 @@
 package by.levchenko.validator;
 
 import by.levchenko.domain.Book;
-import by.levchenko.domain.User;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
