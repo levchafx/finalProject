@@ -1,5 +1,6 @@
 package by.levchenko.service;
 
+import by.levchenko.domain.BookInstance;
 import by.levchenko.domain.Role;
 import by.levchenko.domain.User;
 import by.levchenko.repository.UserRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -35,13 +37,15 @@ public class UserService implements UserDetailsService {
     }
     public boolean saveUser(User u){
     if(u.getId()>0){
+        Set<BookInstance> bookInstances=findById(u.getId()).getBookshelf();
+
+        u.setBookshelf(bookInstances);
         userRepository.save(u);
         return true;
     }
-    if(userRepository.findByUsername(u.getUsername())!=null){
-        return false;
-    }
+
     u.getAuthenticate().setPassword(encoder.encode(u.getPassword()));
+
     userRepository.save(u);
     return true;
     }
@@ -58,6 +62,9 @@ public class UserService implements UserDetailsService {
         User user = findById(id);
         user.setRole(Role.ROLE_LOCKED);
 
+    }
+    public boolean loginExists(String login){
+return userRepository.existsByAuthenticateLogin(login);
     }
 @Transactional
     public void unlockUser(long id) {

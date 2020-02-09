@@ -31,8 +31,8 @@ private final int BOOK_QUANTITY=10;
     @PostConstruct
     public void loadData(){
         Faker faker=new Faker();
-        User admin= new User(environment.getProperty("admin.username"),new Authenticate(environment.getProperty("admin.username"), environment.getProperty("password")), Role.ROLE_ADMIN);
-        User user=new User(environment.getProperty("user.username"),new Authenticate(environment.getProperty("user.username"), environment.getProperty("password")),Role.ROLE_USER);
+        User admin= new User(environment.getProperty("admin.username"),new Authenticate(environment.getProperty("admin.username"), environment.getProperty("password"),environment.getProperty("password")), Role.ROLE_ADMIN);
+        User user=new User(environment.getProperty("user.username"),new Authenticate(environment.getProperty("user.username"), environment.getProperty("password"),environment.getProperty("password")),Role.ROLE_USER);
         userService.saveUser(admin);
         userService.saveUser(user);
 for(int i=0;i<10;i++){

@@ -15,4 +15,5 @@ public interface UserRepository extends JpaRepository<User,Long> {
     User findByUsername(String username);
    @EntityGraph(value = "user.bookshelf")
    Optional<User> findById(long id);
+   boolean existsByAuthenticateLogin(String username);
 }

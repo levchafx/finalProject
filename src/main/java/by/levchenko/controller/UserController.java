@@ -12,12 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Set;
 
 import static by.levchenko.service.SecurityService.returnPrincipal;
 
@@ -86,5 +90,12 @@ public class UserController {
         message.setUserId(u.getId());
         messageRepository.save(message);
         return "redirect:/user/userCabinet";
+    }
+    @PostMapping("/edit")
+    public String editUser(@RequestParam("id") long id,Model model){
+        User user =userService.findById(id);
+        user.getAuthenticate().setConfirmPassword(user.getPassword());
+        model.addAttribute("user",user);
+        return "registration";
     }
 }

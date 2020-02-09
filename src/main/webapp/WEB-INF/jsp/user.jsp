@@ -46,7 +46,7 @@
                         </tbody>
                     </table>
             </td>
-                <td><form action="/user/edit" method="post"><input type="text" hidden="hidden" value="${user}"><input type="submit" class="btn btn-primary" value="Edit"></form><br>
+                <td><form action="/user/edit" method="post"><input type="text" hidden="hidden" name ="id" value="${user.id}"><input type="submit" class="btn btn-primary" value="Edit"></form><br>
                     <c:if test="${user.role=='ROLE_USER'}">
                     <form action="/admin/lockUser" method ="post"><input type="text" hidden="hidden" name ="id" value="${user.id}"><input type="submit" class="btn btn-primary" value="Lock"></form><br>
                     </c:if>

@@ -6,16 +6,21 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.annotation.Validated;
+
 import javax.persistence.*;
 import java.util.*;
 
 @Entity
 @Data
-@NoArgsConstructor
 @NamedEntityGraph
         (name = "user.bookshelf",
         attributeNodes = @NamedAttributeNode("bookshelf"))
 public class User implements UserDetails {
+    public User(){
+        this.authenticate=new Authenticate();
+        this.role=Role.ROLE_USER;
+    }
     public User(String name, Authenticate authenticate){
         this.name=name;
         this.authenticate=authenticate;
@@ -41,7 +46,7 @@ public class User implements UserDetails {
     private Role role;
     @ToString.Exclude
     @OneToMany(cascade=CascadeType.ALL,orphanRemoval = true)
-    private List<BookInstance> bookshelf;
+    private Set<BookInstance> bookshelf;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<Role> roles = new HashSet<>();
@@ -78,4 +83,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

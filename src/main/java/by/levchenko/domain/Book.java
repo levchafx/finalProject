@@ -1,7 +1,11 @@
 package by.levchenko.domain;
 
+import by.levchenko.utils.StringUtils;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.*;
+import java.io.IOException;
 import java.util.Base64;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,8 +23,12 @@ public class Book {
     private byte [] image;
     @Transient
     private String base64Image;
+    @Transient
+    MultipartFile file;
     private String title;
     private String description;
+    @Transient
+    String author;
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.MERGE})

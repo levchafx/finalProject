@@ -11,14 +11,16 @@ import javax.persistence.*;
 @NoArgsConstructor
 
 public class Authenticate {
-    public Authenticate(String login, String password) {
+    public Authenticate(String login, String password,String confirmPassword) {
         this.login = login;
         this.password = password;
+        this.confirmPassword=confirmPassword;
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
+
     private String login;
     private String password;
     @Transient

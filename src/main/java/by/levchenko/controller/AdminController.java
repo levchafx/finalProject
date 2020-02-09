@@ -9,6 +9,7 @@ import by.levchenko.repository.MessageRepository;
 import by.levchenko.service.BookService;
 import by.levchenko.service.UserService;
 import by.levchenko.utils.StringUtils;
+import by.levchenko.validator.BookValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,15 +31,20 @@ import java.io.IOException;
 @RequestMapping("/admin")
 
 public class AdminController {
-
+private BookValidator bookValidator;
     private UserService userService;
     private MessageRepository messageRepository;
     private BookService bookService;
 @Autowired
-    public AdminController(UserService userService, MessageRepository messageRepository, BookService bookService) {
+    public AdminController(UserService userService, MessageRepository messageRepository, BookService bookService,BookValidator bookValidator) {
         this.userService = userService;
         this.messageRepository = messageRepository;
         this.bookService = bookService;
+        this.bookValidator=bookValidator;
+    }
+    @InitBinder("book")
+    protected void initBinder(WebDataBinder binder) {
+        binder.addValidators(bookValidator);
     }
 
     @GetMapping("/admin")
@@ -75,20 +83,27 @@ public class AdminController {
         return mv;
     }
     @GetMapping("/addBook")
-    public String addBook(ModelMap modelMap,@RequestParam(value = "bookId",required = false) Long id){
+    public String addBook(Model model,@RequestParam(value = "bookId",required = false) Long id){
    if(id != null){
-       modelMap.addAttribute("book",bookService.findById(id));
+       model.addAttribute("book",bookService.findById(id));
        return "bookForm";
    }
    Book b= new Book();
    b.getAuthors().add(new Author());
-    modelMap.addAttribute("book",b);
+    model.addAttribute("book",b);
     return "bookForm";
     }
     @PostMapping("/addBook")
-    public String addBook(@ModelAttribute("book") Book book, BindingResult bindingResult, @RequestParam("image") MultipartFile file ,HttpServletRequest request) throws IOException {
-book.setAuthors(StringUtils.getAuthors(request.getParameter("authors")));
-    book.setImage(file.getBytes());
+    public String addBook(@ModelAttribute("book") @Validated Book book, BindingResult bindingResult, @RequestParam(value = "file",required = false) MultipartFile file ) throws IOException {
+if(bindingResult.hasErrors()){
+    return "bookForm";
+}
+        System.out.println(bindingResult.getFieldValue("author").toString());
+        System.out.println(StringUtils.getAuthors(bindingResult.getFieldValue("author").toString()));
+    book.setAuthors(StringUtils.getAuthors(bindingResult.getFieldValue("author").toString()));
+   if(file!=null) {
+       book.setImage(file.getBytes());
+   }
     bookService.saveBook(book);
 
         return"redirect:/books" ;

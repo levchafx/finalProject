@@ -32,7 +32,7 @@ private UserValidator userValidator;
         this.userService=userService;
         this.userValidator=userValidator;
     }
-    @InitBinder
+    @InitBinder("user")
     protected void initBinder(WebDataBinder binder) {
         binder.addValidators(userValidator);
     }
@@ -42,7 +42,6 @@ private UserValidator userValidator;
     }
 @GetMapping("/books")
     public ModelAndView allBooks(){
-    System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
         ModelAndView mv=new ModelAndView("books");
         mv.addObject("books",bookService.findAll());
         return mv;
