@@ -40,7 +40,7 @@ public class DataLoader {
             a.setSurname(faker.name().lastName());
             Set<Author> authors = new HashSet<>();
             authors.add(a);
-            Book book = new Book(faker.book().title().toString(), faker.book().genre().toString(), authors, BOOK_QUANTITY);
+            Book book = new Book(faker.book().title(), faker.book().genre(), authors, BOOK_QUANTITY);
             bookRepository.save(book);
         }
 

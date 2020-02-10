@@ -12,6 +12,10 @@
     <title>Main</title>
 </head>
 <body>
+<sec:authentication var="principal" property="principal" />
+<sec:authorize access="isAuthenticated()">
+<h3>Welcome, ${principal.username}</h3>
+</sec:authorize>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
