@@ -42,10 +42,6 @@ public class AdminController {
         binder.addValidators(bookValidator);
     }
 
-    @GetMapping("/admin")
-    public String admin() {
-        return "index";
-    }
 
     @GetMapping("/users")
     public ModelAndView users() {

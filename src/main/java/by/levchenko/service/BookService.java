@@ -94,4 +94,7 @@ public class BookService {
         }
         return verifiedAuthors;
     }
+    public List<Book> search(String search){
+        return bookRepository.findByTitleContainingIgnoreCase(search);
+    }
 }

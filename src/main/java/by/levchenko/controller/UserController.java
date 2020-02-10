@@ -7,6 +7,7 @@ import by.levchenko.domain.User;
 import by.levchenko.repository.BookInstanceRepository;
 import by.levchenko.repository.MessageRepository;
 import by.levchenko.service.BookService;
+import by.levchenko.service.SecurityService;
 import by.levchenko.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -50,11 +51,6 @@ public class UserController {
         return mv;
     }
 
-    @GetMapping("/userCabinet")
-    public String user() {
-        return "index";
-    }
-
     @GetMapping("/bookshelf")
     public ModelAndView bookshelf() {
 
@@ -94,6 +90,13 @@ public class UserController {
     @PostMapping("/edit")
     public String editUser(@RequestParam("id") long id, Model model) {
         User user = userService.findById(id);
+        user.getAuthenticate().setConfirmPassword(user.getPassword());
+        model.addAttribute("user", user);
+        return "registration";
+    }
+    @GetMapping("/edit")
+    public String editUser( Model model) {
+        User user = SecurityService.returnPrincipal();
         user.getAuthenticate().setConfirmPassword(user.getPassword());
         model.addAttribute("user", user);
         return "registration";

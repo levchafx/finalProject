@@ -1,5 +1,6 @@
 package by.levchenko.controller;
 
+import by.levchenko.domain.Book;
 import by.levchenko.domain.User;
 import by.levchenko.service.BookService;
 import by.levchenko.service.UserService;
@@ -12,6 +13,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller()
 @RequestMapping("/")
@@ -68,6 +71,14 @@ public class MainController {
         }
         userService.saveUser(user);
         return "index";
+    }
+    @PostMapping("/search")
+    public String search(Model model,@RequestParam String search){
+        List<Book> books=bookService.search(search);
+        if(!books.isEmpty()) {
+            model.addAttribute("books",books);
+        }
+        return "books";
     }
 
 }
