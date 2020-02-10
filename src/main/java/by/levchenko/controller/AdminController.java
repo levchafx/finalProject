@@ -6,7 +6,7 @@ import by.levchenko.domain.User;
 import by.levchenko.repository.MessageRepository;
 import by.levchenko.service.BookService;
 import by.levchenko.service.UserService;
-import by.levchenko.utils.AuthorUtils;
+import by.levchenko.util.AuthorUtils;
 import by.levchenko.validator.BookValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +16,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 

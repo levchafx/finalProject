@@ -1,4 +1,4 @@
-package by.levchenko.utils;
+package by.levchenko.util;
 
 import by.levchenko.domain.Author;
 
