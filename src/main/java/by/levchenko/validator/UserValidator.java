@@ -24,7 +24,7 @@ public class UserValidator implements Validator {
         ValidationUtils.rejectIfEmpty(errors, "authenticate.password", "user.password.empty");
         ValidationUtils.rejectIfEmpty(errors, "authenticate.login", "user.login.empty");
 User u=(User)o;
-if(userService.loginExists(u.getAuthenticate().getLogin())){
+if(userService.loginExists(u.getAuthenticate().getLogin())&&u.getId()==0){
     errors.rejectValue("authenticate.login","user.login.exists");
 }
 if(!u.getAuthenticate().getPassword().equals(u.getAuthenticate().getConfirmPassword())){

@@ -38,7 +38,7 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean saveUser(User u) {
-        if (u.getId() > 0) {
+        if (u.getId() != 0) {
             Set<BookInstance> bookInstances = findById(u.getId()).getBookshelf();
 
             u.setBookshelf(bookInstances);

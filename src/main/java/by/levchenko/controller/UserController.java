@@ -84,7 +84,7 @@ public class UserController {
         u = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         message.setUserId(u.getId());
         messageRepository.save(message);
-        return "redirect:/user/userCabinet";
+        return "index";
     }
 
     @PostMapping("/edit")
@@ -96,7 +96,7 @@ public class UserController {
     }
     @GetMapping("/edit")
     public String editUser( Model model) {
-        User user = SecurityService.returnPrincipal();
+        User user = userService.findById(SecurityService.returnPrincipal().getId());
         user.getAuthenticate().setConfirmPassword(user.getPassword());
         model.addAttribute("user", user);
         return "registration";

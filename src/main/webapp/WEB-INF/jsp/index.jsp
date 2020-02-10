@@ -28,9 +28,9 @@
                     User
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/user/bookshelf">Bookshelf</a>
-                    <a class="dropdown-item" href="/user/edit">Edit profile</a>
-                    <a class="dropdown-item" href="user/sendMessage">Contact admin</a>
+                    <a class="dropdown-item" href="<c:url value="/user/bookshelf"/>">Bookshelf</a>
+                    <a class="dropdown-item" href="<c:url value="/user/edit"/>">Edit profile</a>
+                    <a class="dropdown-item" href="<c:url value="/user/sendMessage"/>">Contact admin</a>
                 </div>
             </li>
             </sec:authorize>
@@ -40,9 +40,9 @@
                        Admin
                     </a>
                     <div class="dropdown-menu" aria-labelledby="adminDropdown">
-                        <a class="dropdown-item" href="/admin/users">Users</a>
-                        <a class="dropdown-item" href="/admin/messages">Messages</a>
-                        <a class="dropdown-item" href="/admin/addBook">Add book</a>
+                        <a class="dropdown-item" href="<c:url value="/admin/users"/>">Users</a>
+                        <a class="dropdown-item" href="<c:url value="/admin/messages"/>">Messages</a>
+                        <a class="dropdown-item" href="<c:url value="/admin/addBook"/>">Add book</a>
                     </div>
                 </li>
             </sec:authorize>
@@ -52,18 +52,18 @@
                         Login
                     </a>
                     <div class="dropdown-menu" aria-labelledby="loginDropdown">
-                        <a class="dropdown-item" href="/login">Login</a>
-                        <a class="dropdown-item" href="/register">Register</a>
+                        <a class="dropdown-item" href="<c:url value="/login"/>">Login</a>
+                        <a class="dropdown-item" href="<c:url value="/register"/>">Register</a>
                     </div>
                 </li>
             </sec:authorize>
             <sec:authorize access="isAuthenticated()">
                 <li class="nav-item">
-                    <a class="nav-link" href="/logout">Logout</a>
+                    <a class="nav-link" href="<c:url value="/logout"/>">Logout</a>
                 </li>
             </sec:authorize>
         </ul>
-        <form class="form-inline my-2 my-lg-0" action="/search" method="post">
+        <form class="form-inline my-2 my-lg-0" action="<c:url value="/search"/>" method="post">
             <input class="form-control mr-sm-2" type="text" placeholder="Search" name="search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
