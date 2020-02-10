@@ -44,19 +44,19 @@ public class AdminController {
 
 
     @GetMapping("/users")
-    public ModelAndView users() {
-        ModelAndView mv = new ModelAndView("users");
-        mv.addObject("users", userService.findAll());
-        return mv;
+    public String users(Model model) {
+
+        model.addAttribute("users", userService.findAll());
+        return "users";
     }
 
     @GetMapping("/users/{id}")
-    public ModelAndView userDetails(@PathVariable long id) {
-        ModelAndView mv = new ModelAndView("user");
-        User u = userService.findById(id);
-        u.getBookshelf();
-        mv.addObject("user", u);
-        return mv;
+    public String userDetails(@PathVariable long id,Model model) {
+
+        User user = userService.findById(id);
+        user.getBookshelf();
+        model.addAttribute("user", user);
+        return "user";
     }
 
     @PostMapping("/lockUser")
@@ -72,10 +72,9 @@ public class AdminController {
     }
 
     @GetMapping("/messages")
-    public ModelAndView readMessages() {
-        ModelAndView mv = new ModelAndView("messages");
-        mv.addObject("messages", messageRepository.findAll());
-        return mv;
+    public String readMessages(Model model) {
+        model.addAttribute("messages", messageRepository.findAll());
+        return "messages";
     }
 
     @GetMapping("/addBook")

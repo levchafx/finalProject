@@ -41,17 +41,16 @@ public class MainController {
     }
 
     @GetMapping("/books")
-    public ModelAndView allBooks() {
-        ModelAndView mv = new ModelAndView("books");
-        mv.addObject("books", bookService.findAll());
-        return mv;
+    public String allBooks(Model model) {
+
+        model.addAttribute("books", bookService.findAll());
+        return "books";
     }
 
     @GetMapping("/books/{id}")
-    public ModelAndView bookDetails(@PathVariable long id) {
-        ModelAndView mv = new ModelAndView("book");
-        mv.addObject("book", bookService.findById(id));
-        return mv;
+    public String bookDetails(@PathVariable long id,Model model) {
+        model.addAttribute("book", bookService.findById(id));
+        return "book";
     }
 
     @GetMapping("/register")

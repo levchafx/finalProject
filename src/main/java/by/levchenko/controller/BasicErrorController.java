@@ -6,6 +6,7 @@ import by.levchenko.exception.WrongTypeOfMethodException;
 import by.levchenko.exception.YouAreNotAllowedToBeHereException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
+
 public class BasicErrorController implements ErrorController {
     @Autowired
     private Environment env;

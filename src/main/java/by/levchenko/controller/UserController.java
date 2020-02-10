@@ -44,24 +44,22 @@ public class UserController {
 
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/getBook")
-    public ModelAndView getBook(@RequestParam("book_id") long bookId, @RequestParam("weeks") int weeks) {
+    public String getBook(@RequestParam("book_id") long bookId, @RequestParam("weeks") int weeks,Model model) {
         bookService.getBook(returnPrincipal().getId(), bookId, weeks);
-        ModelAndView mv = new ModelAndView("books");
-        mv.addObject("books", bookService.findAll());
-        return mv;
+        model.addAttribute("books", bookService.findAll());
+        return "books";
     }
 
     @GetMapping("/bookshelf")
-    public ModelAndView bookshelf() {
+    public String bookshelf(Model model) {
 
         List<BookInstance> bookInstanceList = bookInstanceRepository.findByUserId(returnPrincipal().getId());
-        ModelAndView mv = new ModelAndView("bookshelf");
         if (!bookInstanceList.isEmpty()) {
-            mv.addObject("books", bookInstanceList);
-            return mv;
+            model.addAttribute("books", bookInstanceList);
+            return "bookshelf";
         }
-        mv.addObject("bookshelfempty", "bookshelf is empty");
-        return mv;
+       model.addAttribute("bookshelfempty", "bookshelf is empty");
+        return "bookshelf";
     }
 
 
@@ -73,10 +71,10 @@ public class UserController {
     }
 
     @GetMapping("/sendMessage")
-    public ModelAndView sendMessage() {
-        ModelAndView mv = new ModelAndView("messageForm");
-        mv.addObject("message", new Message());
-        return mv;
+    public String sendMessage(Model model) {
+
+        model.addAttribute("message", new Message());
+        return "messageForm";
     }
 
     @PostMapping("/sendMessage")
