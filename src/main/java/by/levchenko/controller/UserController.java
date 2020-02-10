@@ -7,17 +7,13 @@ import by.levchenko.domain.User;
 import by.levchenko.repository.BookInstanceRepository;
 import by.levchenko.repository.MessageRepository;
 import by.levchenko.service.BookService;
-import by.levchenko.service.SecurityService;
 import by.levchenko.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -31,7 +27,6 @@ public class UserController {
     private BookInstanceRepository bookInstanceRepository;
     private BookService bookService;
     private MessageRepository messageRepository;
-    private User u = null;
 
     @Autowired
     public UserController(BookInstanceRepository bookInstanceRepository, BookService bookService, UserService userService, MessageRepository messageRepository) {
@@ -79,8 +74,7 @@ public class UserController {
 
     @PostMapping("/sendMessage")
     public String sendMessage(@ModelAttribute("message") Message message, BindingResult bindingResult) {
-        u = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        message.setUserId(u.getId());
+        message.setUserId(returnPrincipal().getId());
         messageRepository.save(message);
         return "index";
     }
@@ -94,7 +88,7 @@ public class UserController {
     }
     @GetMapping("/edit")
     public String editUser( Model model) {
-        User user = userService.findById(SecurityService.returnPrincipal().getId());
+        User user = userService.findById(returnPrincipal().getId());
         user.getAuthenticate().setConfirmPassword(user.getPassword());
         model.addAttribute("user", user);
         return "registration";
