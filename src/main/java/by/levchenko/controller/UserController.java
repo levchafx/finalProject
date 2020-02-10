@@ -12,16 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Set;
 
 import static by.levchenko.service.SecurityService.returnPrincipal;
 
@@ -36,11 +33,11 @@ public class UserController {
     private User u = null;
 
     @Autowired
-    public UserController(BookInstanceRepository bookInstanceRepository, BookService bookService, UserService userService,MessageRepository messageRepository) {
+    public UserController(BookInstanceRepository bookInstanceRepository, BookService bookService, UserService userService, MessageRepository messageRepository) {
         this.bookInstanceRepository = bookInstanceRepository;
         this.bookService = bookService;
         this.userService = userService;
-        this.messageRepository=messageRepository;
+        this.messageRepository = messageRepository;
 
     }
 
@@ -78,24 +75,27 @@ public class UserController {
         final String referer = request.getHeader("Referer");
         return "redirect:" + referer;
     }
+
     @GetMapping("/sendMessage")
-   public ModelAndView sendMessage(){
-        ModelAndView mv=new ModelAndView("messageForm");
-        mv.addObject("message",new Message());
+    public ModelAndView sendMessage() {
+        ModelAndView mv = new ModelAndView("messageForm");
+        mv.addObject("message", new Message());
         return mv;
     }
+
     @PostMapping("/sendMessage")
-    public String sendMessage(@ModelAttribute("message") Message message, BindingResult bindingResult){
-        u=(User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public String sendMessage(@ModelAttribute("message") Message message, BindingResult bindingResult) {
+        u = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         message.setUserId(u.getId());
         messageRepository.save(message);
         return "redirect:/user/userCabinet";
     }
+
     @PostMapping("/edit")
-    public String editUser(@RequestParam("id") long id,Model model){
-        User user =userService.findById(id);
+    public String editUser(@RequestParam("id") long id, Model model) {
+        User user = userService.findById(id);
         user.getAuthenticate().setConfirmPassword(user.getPassword());
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         return "registration";
     }
 }

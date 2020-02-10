@@ -23,40 +23,46 @@ public class BookService {
     private UserService userService;
     private BookInstanceRepository bookInstanceRepository;
     private AuthorRepository authorRepository;
-@Autowired
-    public BookService(BookRepository bookRepository, UserService userService, BookInstanceRepository bookInstanceRepository,AuthorRepository authorRepository) {
+
+    @Autowired
+    public BookService(BookRepository bookRepository, UserService userService, BookInstanceRepository bookInstanceRepository, AuthorRepository authorRepository) {
         this.bookRepository = bookRepository;
         this.userService = userService;
         this.bookInstanceRepository = bookInstanceRepository;
-        this.authorRepository=authorRepository;
+        this.authorRepository = authorRepository;
     }
 
-    public Book findById(long id){
+    public Book findById(long id) {
         return bookRepository.findById(id).orElse(new Book());
     }
-    public List<Book> findAll(){
-      return bookRepository.findAll();
+
+    public List<Book> findAll() {
+        return bookRepository.findAll();
     }
-    public void saveBook(Book b){
-      b.setAuthors(verifyAuthors(b.getAuthors()));
-    bookRepository.save(b);
+
+    public void saveBook(Book b) {
+        b.setAuthors(verifyAuthors(b.getAuthors()));
+        bookRepository.save(b);
     }
+
     @Transactional
-    public void deleteBook(long id){
+    public void deleteBook(long id) {
         List<BookInstance> bookInstances = bookInstanceRepository.findByBookId(id);
-        for(BookInstance bookInstance:bookInstances){
-            User u=userService.findById(bookInstance.getUserId());
+        for (BookInstance bookInstance : bookInstances) {
+            User u = userService.findById(bookInstance.getUserId());
             u.getBookshelf().remove(bookInstance);
         }
         bookRepository.deleteById(id);
     }
-    public void deleteBook(Book b){
-deleteBook(b.getId());
+
+    public void deleteBook(Book b) {
+        deleteBook(b.getId());
 
     }
+
     @Transactional
-    public void getBook(long userId,long bookId,int weeks){
-User user=userService.findById(userId);
+    public void getBook(long userId, long bookId, int weeks) {
+        User user = userService.findById(userId);
         Book b = findById(bookId);
         b.setQuantity(b.getQuantity() - 1);
         BookInstance bi = new BookInstance();
@@ -66,24 +72,26 @@ User user=userService.findById(userId);
         bi.setDueDate(Date.valueOf(localDate.plusWeeks(weeks)));
         user.getBookshelf().add(bi);
     }
+
     @Transactional
-    public void returnBook(long bookId){
+    public void returnBook(long bookId) {
         BookInstance bi = bookInstanceRepository.findById(bookId).get();
         User user = userService.findById(bi.getUserId());
         Book b = findById(bi.getBookId());
         b.setQuantity(b.getQuantity() + 1);
         user.getBookshelf().remove(bi);
     }
-    public Set<Author> verifyAuthors(Set<Author> authors){
-    Set<Author> verifiedAuthors=new HashSet<>();
-    verifiedAuthors.addAll(authors);
-    for(Author a:authors){
-        Author author=authorRepository.findByNameAndSurname(a.getName(),a.getSurname()).orElse(new Author());
-        if(author.getId()>0){
-            verifiedAuthors.remove(a);
-            verifiedAuthors.add(author);
+
+    public Set<Author> verifyAuthors(Set<Author> authors) {
+        Set<Author> verifiedAuthors = new HashSet<>();
+        verifiedAuthors.addAll(authors);
+        for (Author a : authors) {
+            Author author = authorRepository.findByNameAndSurname(a.getName(), a.getSurname()).orElse(new Author());
+            if (author.getId() > 0) {
+                verifiedAuthors.remove(a);
+                verifiedAuthors.add(author);
+            }
         }
-    }
-    return verifiedAuthors;
+        return verifiedAuthors;
     }
 }

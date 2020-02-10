@@ -1,11 +1,12 @@
 package by.levchenko.domain;
 
-import by.levchenko.utils.StringUtils;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import java.io.IOException;
 import java.util.Base64;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,7 +29,7 @@ public class Book {
     private String title;
     private String description;
     @Transient
-    String author;
+    private String author;
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.MERGE})

@@ -11,10 +11,10 @@ import javax.persistence.*;
 @NoArgsConstructor
 
 public class Authenticate {
-    public Authenticate(String login, String password,String confirmPassword) {
+    public Authenticate(String login, String password, String confirmPassword) {
         this.login = login;
         this.password = password;
-        this.confirmPassword=confirmPassword;
+        this.confirmPassword = confirmPassword;
     }
 
     @Id

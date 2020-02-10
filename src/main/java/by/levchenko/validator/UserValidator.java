@@ -3,14 +3,16 @@ package by.levchenko.validator;
 import by.levchenko.domain.User;
 import by.levchenko.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 @Component
 public class UserValidator implements Validator {
+
     @Autowired
-    UserService userService;
+    private UserService userService;
     @Override
     public boolean supports(Class<?> aClass) {
         return User.class.isAssignableFrom(aClass);

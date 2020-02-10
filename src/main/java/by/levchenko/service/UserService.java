@@ -18,10 +18,11 @@ import java.util.Set;
 @Service
 public class UserService implements UserDetailsService {
 
-  private  UserRepository userRepository;
+    private UserRepository userRepository;
 
-  private PasswordEncoder encoder;
-@Autowired
+    private PasswordEncoder encoder;
+
+    @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder encoder) {
         this.userRepository = userRepository;
         this.encoder = encoder;
@@ -29,44 +30,49 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-    User u=userRepository.findByUsername(s);
-    if(u==null) {
-        throw new UsernameNotFoundException("user not found");
+        User u = userRepository.findByUsername(s);
+        if (u == null) {
+            throw new UsernameNotFoundException("user not found");
+        }
+        return u;
     }
-    return u;
-    }
-    public boolean saveUser(User u){
-    if(u.getId()>0){
-        Set<BookInstance> bookInstances=findById(u.getId()).getBookshelf();
 
-        u.setBookshelf(bookInstances);
+    public boolean saveUser(User u) {
+        if (u.getId() > 0) {
+            Set<BookInstance> bookInstances = findById(u.getId()).getBookshelf();
+
+            u.setBookshelf(bookInstances);
+            userRepository.save(u);
+            return true;
+        }
+
+        u.getAuthenticate().setPassword(encoder.encode(u.getPassword()));
+
         userRepository.save(u);
         return true;
     }
 
-    u.getAuthenticate().setPassword(encoder.encode(u.getPassword()));
 
-    userRepository.save(u);
-    return true;
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 
+    public User findById(long id) {
+        return userRepository.findById(id).orElse(new User());
+    }
 
-    public List<User> findAll(){
-    return userRepository.findAll();
-    }
-    public User findById(long id){
-    return userRepository.findById(id).orElse(new User());
-    }
     @Transactional
-    public void lockUser(long id){
+    public void lockUser(long id) {
         User user = findById(id);
         user.setRole(Role.ROLE_LOCKED);
 
     }
-    public boolean loginExists(String login){
-return userRepository.existsByAuthenticateLogin(login);
+
+    public boolean loginExists(String login) {
+        return userRepository.existsByAuthenticateLogin(login);
     }
-@Transactional
+
+    @Transactional
     public void unlockUser(long id) {
         User user = findById(id);
         user.setRole(Role.ROLE_USER);
