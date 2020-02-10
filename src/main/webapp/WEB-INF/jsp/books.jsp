@@ -14,6 +14,9 @@
 </head>
 <body>
 <h1>Books</h1>
+
+<h3>${result}</h3>
+<c:if test="${books ne null}">
 <table class='table table-bordered table-condensed table-striped table-hover'>
 
     <tr>
@@ -33,6 +36,6 @@
     </c:forEach>
     </tbody>
 </table>
-
+</c:if>
 </body>
 </html>

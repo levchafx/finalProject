@@ -74,10 +74,12 @@ public class MainController {
     }
     @PostMapping("/search")
     public String search(Model model,@RequestParam String search){
-        List<Book> books=bookService.search(search);
+        List<Book> books=bookService.searchByTitle(search);
         if(!books.isEmpty()) {
             model.addAttribute("books",books);
+            return "books";
         }
+        model.addAttribute("result","search returned no results");
         return "books";
     }
 

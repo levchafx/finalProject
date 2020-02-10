@@ -6,7 +6,7 @@ import by.levchenko.domain.User;
 import by.levchenko.repository.MessageRepository;
 import by.levchenko.service.BookService;
 import by.levchenko.service.UserService;
-import by.levchenko.utils.StringUtils;
+import by.levchenko.utils.AuthorUtils;
 import by.levchenko.validator.BookValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -95,7 +95,7 @@ public class AdminController {
         if (bindingResult.hasErrors()) {
             return "bookForm";
         }
-        book.setAuthors(StringUtils.getAuthors(bindingResult.getFieldValue("author").toString()));
+        book.setAuthors(AuthorUtils.getAuthors(bindingResult.getFieldValue("author").toString()));
         if (file != null) {
             book.setImage(file.getBytes());
         }

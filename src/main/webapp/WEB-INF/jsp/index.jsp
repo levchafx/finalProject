@@ -64,7 +64,7 @@
             </sec:authorize>
         </ul>
         <form class="form-inline my-2 my-lg-0" action="<c:url value="/search"/>" method="post">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search" name="search" aria-label="Search">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search By Title" name="search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>

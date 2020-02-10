@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class StringUtils {
+public class AuthorUtils {
     private static final int NAME = 0;
     private static final int SURNAME = 1;
 
