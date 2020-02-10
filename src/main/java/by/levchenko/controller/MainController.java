@@ -6,6 +6,7 @@ import by.levchenko.service.BookService;
 import by.levchenko.service.UserService;
 import by.levchenko.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,15 +20,17 @@ import java.util.List;
 @Controller()
 @RequestMapping("/")
 public class MainController {
+    private Environment env;
     private UserValidator userValidator;
     private BookService bookService;
     private UserService userService;
 
     @Autowired
-    public MainController(BookService bookService, UserService userService, UserValidator userValidator) {
+    public MainController(BookService bookService, UserService userService, UserValidator userValidator,Environment env) {
         this.bookService = bookService;
         this.userService = userService;
         this.userValidator = userValidator;
+        this.env=env;
     }
 
     @InitBinder("user")
@@ -61,7 +64,7 @@ public class MainController {
     }
 
     @PostMapping("/register")
-    public String registration(@ModelAttribute("user") @Validated User user, BindingResult bindingResult, Model model) {
+    public String registration(@ModelAttribute("user") @Validated User user, BindingResult bindingResult) {
 
 
         if (bindingResult.hasErrors()) {
@@ -78,7 +81,7 @@ public class MainController {
             model.addAttribute("books",books);
             return "books";
         }
-        model.addAttribute("result","search returned no results");
+        model.addAttribute("result",env.getProperty("negative.search.result"));
         return "books";
     }
 
