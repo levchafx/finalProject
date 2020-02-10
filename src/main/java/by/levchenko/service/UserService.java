@@ -39,8 +39,11 @@ public class UserService implements UserDetailsService {
 
     public boolean saveUser(User u) {
         if (u.getId() != 0) {
+            User user=userRepository.findById(u.getId()).get();
+            if(!u.getPassword().equals(user.getPassword())){
+                u.getAuthenticate().setPassword(encoder.encode(u.getAuthenticate().getPassword()));
+            }
             Set<BookInstance> bookInstances = findById(u.getId()).getBookshelf();
-
             u.setBookshelf(bookInstances);
             userRepository.save(u);
             return true;
