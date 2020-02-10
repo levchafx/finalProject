@@ -32,12 +32,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/*")
                 .permitAll()
-                .antMatchers("/admin/**","/h2-console/**")
+                .antMatchers("/admin/**", "/h2-console/**")
                 .access("hasRole('ROLE_ADMIN')")
                 .antMatchers("/user/*")
                 .access("hasAnyRole( {'ROLE_ADMIN','ROLE_USER','ROLE_GUEST'})");
 
-        http .formLogin();
+        http.formLogin();
 
         http.logout().permitAll().logoutSuccessUrl("/");
 
