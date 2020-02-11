@@ -9,6 +9,7 @@ import by.levchenko.repository.MessageRepository;
 import by.levchenko.service.BookService;
 import by.levchenko.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,14 +28,14 @@ public class UserController {
     private BookInstanceRepository bookInstanceRepository;
     private BookService bookService;
     private MessageRepository messageRepository;
-
+    private Environment env;
     @Autowired
-    public UserController(BookInstanceRepository bookInstanceRepository, BookService bookService, UserService userService, MessageRepository messageRepository) {
+    public UserController(BookInstanceRepository bookInstanceRepository, BookService bookService, UserService userService, MessageRepository messageRepository,Environment env) {
         this.bookInstanceRepository = bookInstanceRepository;
         this.bookService = bookService;
         this.userService = userService;
         this.messageRepository = messageRepository;
-
+        this.env=env;
     }
 
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
@@ -53,7 +54,7 @@ public class UserController {
             model.addAttribute("books", bookInstanceList);
             return "bookshelf";
         }
-       model.addAttribute("bookshelfempty", "bookshelf is empty");
+       model.addAttribute("bookshelfempty", env.getProperty("bookshelf.empty"));
         return "bookshelf";
     }
 

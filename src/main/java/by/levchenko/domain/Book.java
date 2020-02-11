@@ -25,11 +25,11 @@ public class Book {
     @Transient
     private String base64Image;
     @Transient
-    MultipartFile file;
-    private String title;
-    private String description;
+    private MultipartFile file;
     @Transient
     private String author;
+    private String title;
+    private String description;
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.MERGE})

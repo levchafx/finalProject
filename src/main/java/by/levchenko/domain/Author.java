@@ -20,7 +20,7 @@ public class Author {
     private String surname;
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @ManyToMany(mappedBy = "authors", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "authors", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     private Set<Book> books=new HashSet<>();
 
 }
